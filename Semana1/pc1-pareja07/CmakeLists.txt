@@ -1,0 +1,48 @@
+cmake_minimum_required(VERSION 3.10)
+project(MaximumSubarray_PC1)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Incluir directorios de cabecera
+include_directories(src)
+
+# ---------------------------------------------------
+# 1. Ejecutable Principal (Build normal)
+# ---------------------------------------------------
+add_executable(main_app src/main.cpp src/solution.cpp)
+
+# ---------------------------------------------------
+# 2. Ejecutable de Pruebas (Tests) con Cobertura
+# ---------------------------------------------------
+add_executable(unit_tests tests/tests.cpp src/solution.cpp)
+# Agregamos banderas para generar el reporte gcov
+target_compile_options(unit_tests PRIVATE --coverage)
+target_link_options(unit_tests PRIVATE --coverage)
+
+# ---------------------------------------------------
+# 3. Ejecutable de Benchmark
+# ---------------------------------------------------
+add_executable(bench_app bench/benchmark.cpp src/solution.cpp)
+
+# ---------------------------------------------------
+# 4. Builds Optimizados (Evidencia para el Profiling)
+# ---------------------------------------------------
+add_executable(main_app_O0 src/main.cpp src/solution.cpp)
+target_compile_options(main_app_O0 PRIVATE -O0)
+
+add_executable(main_app_O2 src/main.cpp src/solution.cpp)
+target_compile_options(main_app_O2 PRIVATE -O2)
+
+add_executable(main_app_Os src/main.cpp src/solution.cpp)
+target_compile_options(main_app_Os PRIVATE -Os)
+
+# ---------------------------------------------------
+# 5. Build con Sanitizers (Evidencia de Memoria)
+# ---------------------------------------------------
+add_executable(main_app_san src/main.cpp src/solution.cpp)
+target_compile_options(main_app_san PRIVATE -O1 -g -fsanitize=address,undefined)
+target_link_options(main_app_san PRIVATE -fsanitize=address,undefined)
+
+# Mensaje informativo al configurar
+message(STATUS "Configuracion de PC1-PAREJA07 (FC-UNI) lista para sustentar.")
