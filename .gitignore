@@ -1,0 +1,7 @@
+# Ignora cualquier carpeta llamada build en cualquier nivel del proyecto
+**/build/
+**/build-debug/
+**/build-debu/
+
+# Ignora ejecutables en cualquier lugar
+*.exe
