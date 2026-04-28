@@ -4,7 +4,7 @@
 - RYDELL JONEL MOSQUERA HUAYHUA
 - ANGEL JESUS NAVARRO RUIZ
 
-#### Bloque 1
+#### Bloque 1 - Núcleo conceptual de la semana
 ##### 1. Memoria Contigua
 Significa que todos los elementos de la estructura se almacenan en un único bloque de memoria ininterrumpido. La disposición lógica de los elementos corresponde de forma exacta y directa a su disposición física secuencial en la memoria del sistema.
 
@@ -40,7 +40,7 @@ Existe un compromiso (*trade-off*) constante:
 * Mantener la contigüidad ante cambios estructurales implica un alto **costo temporal** por desplazamientos.
 * Para reducir la frecuencia de estos costos (redimensionamiento), se acepta un margen de **desperdicio espacial** (capacidad excedente).
 
-#### Bloque 2
+#### Bloque 2 - Demostración y trazado guiado
 ##### 1. En `demo_array_basico.cpp`, ¿qué deja claro sobre arreglo, longitud y asignación?
 
 Sobre el arreglo nos deja claro que es de tamaño fijo definido, la longitud (length) refleja cuantos elementos contiene y la asignación no copia, sino que hace una transferencia en donde b deja de tener sus valores iniciales y pasa a apuntar al mismo bloque de memoria que tenía a.
@@ -73,7 +73,7 @@ Ambos muestran el mismo patrón: capacity crece en saltos que se duplican mientr
 La demo que mas sirve para defender amortización es demo_deng_vector.cpp porque imprime size y capacity en cada insert mostrando como la capacidad crece en saltos.
 La demo que mejor sirve para defender uso de espacio es demo_rootisharraystack_explicado/cpp porque explica la idea de bloques de tamaño y muestra como el mapeo de índices reduce el desperdicio espacial.
 
-#### Bloque 3
+#### Bloque 3-Pruebas públicas, stress y correctitud
 ##### 1. ¿Qué operaciones mínimas valida la prueba pública para `ArrayStack`?
 La prueba pública en test_public_week2.cpp valida la operaciones de inserción al final (add(x)), inserción por índice (add(i,x)), obtención del tamaño (size()), lectura por índice (get(i)) y eliminación por índice (remove(i))
 ##### 2. ¿Qué operaciones mínimas valida la prueba pública para `FastArrayStack`?
@@ -91,7 +91,9 @@ Esta prueba intenta estresar forzando ciclos masivos de redimensionamiento de me
 * **Estabilidad:** Verifica que, a pesar de estas agresivas reubicaciones de memoria, los datos restantes sigan siendo correctos y accesibles en sus índices correspondientes (por ejemplo, validando `v[i] == i + 700`).
 ##### 7. ¿Por qué pasar pruebas no reemplaza una explicación de invariantes y complejidad?
 Pasar pruebas es insuficiente porque estas son de naturaleza empírica y finita: solo aseguran que el estado de salida es el esperado para una entrada exacta. Un código muy ineficiente podría pasar estas pruebas si los datos son pocos. La explicación de **invariantes** demuestra matemáticamente el *por qué* la lógica siempre funciona sin importar la entrada, y el análisis de **complejidad** asegura que el diseño cumpla con los límites teóricos de escalabilidad, aspectos que una prueba funcional básica no puede validar intrínsecamente.
-#### Bloque 4
+
+
+#### Bloque 4-Vector como puente entre teoría y código
 
 
 ##### 1. ¿Qué papel cumplen `_size`, `_capacity` y `_elem`?
@@ -118,7 +120,7 @@ La evidencia de la copia profunda (deep copy) se refleja en el control estricto 
 ##### 7. ¿Qué ventaja tiene implementar un vector propio antes de depender de `std::vector`?
 Implementar un vector propio tiene un inmenso valor formativo, ya que obliga a lidiar con problemas centrales del diseño algorítmico que los contenedores prefabricados como `std::vector` ocultan de la vista del programador. Enseña la diferencia práctica entre interfaz abstracta e implementación interna, expone la necesidad de gestionar manualmente la memoria dinámica (destructores, fugas), resalta la importancia de la copia profunda y obliga a razonar usando análisis amortizado para entender el costo real de las operaciones.
 
-#### Bloque 5
+#### Bloque 5 - RootishArrayStack: espacio y mapeo
 
 ##### 1. ¿Cómo se distribuyen los elementos entre bloques?
 Los elementos no se almacenan en un único arreglo gigante, sino que se organizan en una lista de múltiples arreglos más pequeños (bloques) de tamaños progresivos. Específicamente, el bloque 0 tiene capacidad para 1 elemento, el bloque 1 para 2 elementos, el bloque 2 para 3, y en general, el bloque $b$ tiene capacidad para $b+1$ elementos.
@@ -135,18 +137,38 @@ A pesar de su compleja representación interna, se conserva intacta la interfaz 
 ##### 7. ¿Qué parte les parece más difícil de defender oralmente: el mapeo, el análisis espacial o el costo amortizado de `grow/shrink`?
 El **mapeo `i2b(i)`** suele ser la parte más difícil de explicar y defender oralmente. A diferencia del análisis espacial o amortizado (que pueden ilustrarse con analogías intuitivas como "solo sobra el último bloque" o "el costo duro se reparte entre muchas inserciones"), explicar el mapeo exige que el interlocutor visualice una deducción algebraica en el aire. Explicar oralmente cómo la inecuación cuadrática $\\frac{b(b+1)}{2} \\le i$ deriva en la aplicación de la fórmula resolvente de segundo grado con raíz cuadrada y el uso de un techo (`ceil`), resulta bastante abstracto sin el apoyo de una pizarra o notación matemática formal.
 
-#### Bloque 6
+#### Bloque 6-Refuerzo de lectura
 
 ##### 1. ¿Qué aporta `operator[]` a la idea de vector?
 
+La sobrecarga del operador [ ] aporta una notación natural e intuitiva al programador, permitiendo recuperar el estilo de acceso directo de un arreglo clásico sin renunciar a la encapsulación y abstracción que ofrece el vector.
 ##### 2. ¿Qué supone `find(e)` sobre igualdad entre elementos?
+Supone que es posible comparar los elementos almacenados buscando una coincidencia exacta ("un elemento igual a e"). Dado que se aplica en un vector no ordenado que carece de información estructural para descartar regiones, asume que debe realizarse mediante una búsqueda secuencial exhaustiva comparando elemento por elemento.
 ##### 3. ¿Qué muestra `traverse()` sobre procesamiento uniforme de toda la estructura?
+Muestra una idea de alto nivel donde el vector no es visto solo como un lugar pasivo para almacenar datos, sino como una estructura capaz de soportar procesamiento uniforme, aplicando una misma acción o transformación a toda la colección completa.
 ##### 4. ¿Por qué esta lectura sirve como refuerzo natural de `DengVector` aunque no sea el centro exclusivo de la semana?
+Sirve como un refuerzo teórico natural porque justifica con precisión las decisiones de diseño algorítmico que implementa DengVector. Explica los fundamentos de la separación entre interfaz e implementación, la diferencia crucial entre tamaño lógico y capacidad física, las estrategias de gestión dinámica (expansión/reducción) y justifica su eficiencia mediante el análisis amortizado.
+#### Bloque 7 - Cierre comparativo
+Cuando pasamos de usar un simple arreglo a diseñar una estructura dinámica, el cambio principal es que la **representación** física se separa de la lógica. Ahora la estructura diferencia entre la memoria total que hemos reservado (capacidad) y la cantidad de elementos que realmente estamos utilizando (tamaño).
 
-#### Bloque 7
-(respuesta final)
+Esto nos exige garantizar la **correctitud** interna: la estructura ahora tiene que cuidarse sola. Debe detectar si se va a llenar, expandirse a un arreglo nuevo, copiar los datos sin errores y, muy importante, liberar la memoria vieja para no dejar fugas.
+
+A simple vista, copiar todo a un arreglo nuevo parece lento ($O(n)$). Sin embargo, aquí entra el **costo amortizado**: como la jugada es duplicar la capacidad en lugar de crecer poco a poco, estas expansiones masivas ocurren muy pocas veces. En promedio, el costo real de insertar un dato sigue siendo $O(1)$.
+
+Esta gestión también optimiza el **uso de espacio**. Si empezamos a borrar muchos datos, la estructura se encoge sola (*shrink*) para que el espacio de memoria desperdiciada nunca supere una fracción $O(n)$ del tamaño actual.
+
+Finalmente, esta evolución se nota al comparar tres estructuras clave de la semana:
+* **`ArrayStack`**: Hace la gestión dinámica clásica moviendo los datos con bucles normales (uno por uno).
+* **`FastArrayStack`**: Funciona igual que el anterior, pero mueve los bloques de memoria usando funciones nativas de bajo nivel (como `std::copy`), lo que lo hace muchísimo más rápido en la práctica.
+* **`RootishArrayStack`**: Rompe el molde. En vez de depender de un solo arreglo gigante que se duplica, usa una lista de bloques de tamaños crecientes (1, 2, 3...). Esto reduce la memoria desperdiciada de $O(n)$ a solo $O(\sqrt{n})$, a cambio de requerir un cálculo matemático un poco más complejo para saber el índice.
 
 #### Autoevaluación breve
-- Qué podemos defender con seguridad:
-- Qué todavía confundimos:
-- Qué evidencia usaríamos en una sustentación:
+
+* **Qué podemos defender con seguridad:**
+  Tenemos muy clara la separación entre la **capacidad física** que reservamos en la memoria y el **tamaño lógico** que realmente usamos en la estructura. También podemos justificar sin problemas cómo la estrategia de duplicar el arreglo nos salva la vida para mantener un **costo amortizado de $O(1)$** en las inserciones. Además, entendemos bien la diferencia entre un `ArrayStack` clásico (que mueve elemento por elemento) y un `FastArrayStack` (que optimiza todo usando copias de memoria a bajo nivel).
+
+* **Qué todavía confundimos (o nos cuesta explicar en la pizarra):**
+  La matemática exacta del `RootishArrayStack`. Entendemos la genialidad de usar bloques de tamaño creciente para que la memoria desperdiciada baje a $O(\sqrt{n})$, pero hacer el cálculo manual para saber en qué bloque exacto cae el índice `i` (usando la fórmula de la raíz cuadrada rápida) todavía nos resulta un poco enredado de trazar mentalmente. También nos toca pensar dos veces los umbrales exactos para hacer el `shrink()` sin caer en el efecto rebote (expandir y reducir a cada rato).
+
+* **Qué evidencia usaríamos en una sustentación:**
+  Nos apoyaríamos directamente en el código de los *demos*. Para probar el impacto de la memoria, mostraríamos los tiempos de ejecución comparando `ArrayStack` vs. `FastArrayStack`; es la mejor forma de demostrar que, aunque en teoría (Big-O) ambas cuestan lo mismo, en la práctica el manejo de memoria hace una diferencia brutal. Además, usaríamos las pruebas de estrés (`resize_stress_week2.cpp`) para comprobar que nuestra gestión dinámica aguanta miles de operaciones seguidas sin romperse ni dejar fugas de memoria.
