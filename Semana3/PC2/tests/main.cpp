@@ -19,10 +19,11 @@ std::vector<ListNode*> createTestLists() {
     return {l1, l2, l3};
 }
 
+
 int main() {
     Solution sol;
     std::cout << "=================================================\n";
-    std::cout << "   TEST: MERGE K SORTED LISTS (SEMANAS 2 Y 3)    \n";
+    std::cout << "   TEST: MERGE K SORTED LISTS    \n";
     std::cout << "=================================================\n\n";
 
     // ---------------------------------------------------------
@@ -43,7 +44,20 @@ int main() {
     std::cout << "Resultado: ";
     printList(result2);
     
+    /* ===================================================================
+        3. RETO : Divide and Conquer usando ADT Cola (Queue)
+        ===================================================================
+    */
     
+    std::cout << "[Enfoque 3] Divide and Conquer usando ADT Cola (Queue) O(N* log k) - (Reutilización de mergeTwoLists):\n";
+    std::vector<ListNode*> lists3 = createTestLists();
+    ListNode* result3 = sol.mergeKListsDivideAndConquerQueue(lists3);
+    std::cout << "Resultado: ";
+    printList(result3);
+    
+    
+
+
     std::cout << "Todas las pruebas finalizaron correctamente.\n";
     return 0;
 }

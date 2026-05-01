@@ -52,7 +52,19 @@ int main() {
     std::chrono::duration<double, std::milli> diff2 = end2 - start2;
     std::cout << "[Enfoque 2] Fusion Secuencial O(N * k) - (Costo alto por enlaces):  " << diff2.count() << " ms\n";
 
+    /* ===================================================================
+        3. RETO : Divide and Conquer usando ADT Cola (Queue)
+        ===================================================================
+    
+    */
 
+    auto lists3 = generateLargeTestData(K, L);
+    auto start3 = std::chrono::high_resolution_clock::now();
+    sol.mergeKListsDivideAndConquerQueue(lists3);
+    auto end3 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> diff3 = end3 - start3;
+    std::cout << "[Enfoque 3] Divide and Conquer usando ADT COLA :          " << diff3.count() << " ms\n";
+    
     std::cout << "\nBenchmark finalizado.\n";
     return 0;
 }

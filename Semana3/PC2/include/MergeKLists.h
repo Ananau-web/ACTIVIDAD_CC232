@@ -10,13 +10,14 @@ struct ListNode {
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
-
+ // max_heap 
 // Criterio de extracción mínima (Pregunta de rúbrica)
 struct CompareNode {
     bool operator()(ListNode* a, ListNode* b) {
         return a->val > b->val; 
     }
 };
+// functor(objeto que actua como funcion )
 
 class Solution {
 public:
@@ -54,14 +55,13 @@ public:
             tail->next = minNode;
             tail = tail->next;
             
-            // 2. ¿Cuándo insertas el siguiente nodo? -> Si el nodo extraído tiene sucesor
             if (minNode->next != nullptr) minHeap.push(minNode->next);
         }
         return dummy.next;
     }
 
     // =====================================================================
-    // 3. Divide and Conquer usando ADT Cola (Queue)
+    // 3. Divide and Conquer usando ADT Cola (Queue) O(N* log k)
     // =====================================================================
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
         ListNode dummy(0); // Nodo centinela

@@ -54,3 +54,23 @@ cmake --build build
 2. **Caso de alta fragmentación:** Entrada: 100 listas diferentes, pero cada una con solo 1 o 2 elementos. Ej: `[[10], [1], [5, 6], [0], [2], ..., [99]]`. Salida esperada: Arreglo fusionado de todos los elementos. *Pone a prueba el límite de memoria espacial O(k) y la estructura inicial del Min-Heap.*
 3. **Caso de colisiones y dominio negativo:** Entrada: `[[-10, -5, -1, 0, 0, 2], [-5, -2, 0, 1], [-10, -5, 0]]`. Salida esperada: `[-10, -10, -5, -5, -5, -2, -1, 0, 0, 0, 0, 1, 2]`. *Valida la solidez del criterio de comparación con números menores a cero y alta densidad de duplicados.*
 4. **Caso de tamaños irregulares (Caso Borde):** Entrada: `[[], [1,2], [0]]`. Salida esperada: `[0,1,2]`. *Demuestra el manejo robusto de la estructura al combinar listas vacías con listas de tamaños pequeños sin generar errores de segmentación.*
+
+### Historial de Commits
+
+A continuación se detalla el progreso del desarrollo del proyecto, evidenciando la implementación progresiva de las estructuras de datos, pruebas y documentación.
+
+```git
+git commit -m ""
+
+git commit -m "Actualiza README.md con correcciones y agrega carpeta docs para documentación adicional"
+
+git commit -m "Integración de demos interactivos, benchmarks, análisis de rendimiento y mejoras en la cabecera .h"
+
+git commit -m "Estructura base de Merge k Sorted Lists, pruebas y configuracion de CMake"
+"
+git commit  -m "Actividad 2 y 3"
+```
+
+### Declaración de autoría
+Declaro que entiendo el código entregado, que puedo explicarlo, compilarlo, 
+ejecutarlo y modificarlo sin ayuda externa durante la grabación.

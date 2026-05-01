@@ -1,12 +1,13 @@
 # Análisis de Rendimiento (Benchmark)
 
-Al ejecutar el benchmark con 100 listas de 500 elementos (50,000 nodos en total), se obtuvieron los siguientes tiempos:
+Al ejecutar el benchmark con 100 listas de 500 elementos (50,000 nodos en total), se obtuvieron los siguientes tiempos empíricos:
 
-* **[Enfoque 1] Min-Heap O(N log k):** 23.404 ms
-* **[Enfoque 2] Fusión Secuencial O(N * k):** 43.0254 ms
-* **[RETO VIVO] Divide & Conquer O(N log k):** XX.XX ms
+* **[Enfoque 1] Min-Heap O(N log k):** 7.1669 ms
+* **[Enfoque 2] Fusión Secuencial O(N * k):** 29.7949 ms
+* **[RETO VIVO] Divide & Conquer O(N log k):** 1.9791 ms
 
 ## Conclusión Técnica
-La Fusión Secuencial resulta ser la más ineficiente debido a la redundancia al recorrer múltiples veces los mismos enlaces de los nodos iniciales. El enfoque principal utilizando un **Min-Heap** (Priority Queue) reduce el tiempo drásticamente a un comportamiento logarítmico. 
 
-Adicionalmente, el reto utilizando el **ADT Cola (Queue)** demuestra que es posible alcanzar la misma complejidad óptima de O(N log k) mediante la técnica de Divide and Conquer, reciclando la función de fusión de dos listas y emparejándolas de forma iterativa sin necesidad de usar estructuras de árbol pesado.
+1. **La Fusión Secuencial** es, como se esperaba teóricamente, el método más deficiente (casi 30 ms). Su complejidad O(N * k) provoca que el algoritmo repita recorridos sobre los mismos enlaces una y otra vez a medida que la lista combinada crece.
+2. **El Min-Heap (Priority Queue)** demuestra la superioridad matemática de O(N log k), reduciendo el tiempo a 7.16 ms al evitar comparaciones redundantes y procesar directamente los mínimos.
+3. **El Divide & Conquer (ADT Cola)**, a pesar de tener la misma complejidad teórica O(N log k) que el Min-Heap, resultó ser el más rápido en la práctica (1.97 ms). Esto se debe a que la operación `mergeTwoLists` ejecuta un bucle continuo altamente optimizado y amigable con la caché del procesador, evitando el "overhead" constante de rebalanceo de árbol que sufre el heap en cada inserción/extracción.

@@ -1,13 +1,12 @@
 #include <iostream>
 #include <vector>
-#include <thread> // Para las animaciones/pausas
-#include <chrono>
+#include <windows.h>
 #include <string>
 #include "MergeKLists.h"
 
 // Función para simular el "delay" de un visualizador animado
 void pausar(int milisegundos) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(milisegundos));
+    Sleep(milisegundos);
 }
 
 // Función auxiliar para imprimir con etiquetas
