@@ -60,7 +60,9 @@ cmake --build build
 A continuación se detalla el progreso del desarrollo del proyecto, evidenciando la implementación progresiva de las estructuras de datos, pruebas y documentación.
 
 ```git
-git commit -m ""
+git commit -m "Agrega enlace al video de sustentacion en Google Drive"
+
+git commit -m "Implementación del Divide and Conquer y SRC"
 
 git commit -m "Actualiza README.md con correcciones y agrega carpeta docs para documentación adicional"
 
