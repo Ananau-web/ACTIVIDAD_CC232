@@ -9,7 +9,7 @@ void printList(ListNode* head) {
         head = head->next;
     }
     std::cout << "\n\n";
-}
+} //
 
 // Función auxiliar para generar las listas de prueba frescas cada vez
 std::vector<ListNode*> createTestLists() {

@@ -1,7 +1,43 @@
-# Ignora cualquier carpeta llamada build en cualquier nivel del proyecto
-**/build/
-**/build-debug/
-**/build-debu/
+# Build directories
+build/
+cmake-build-*/
+Debug/
+Release/
+x64/
+bin/
 
-# Ignora ejecutables en cualquier lugar
+# Executables
 *.exe
+*.out
+*.app
+
+# Object files and libraries
+*.o
+*.obj
+*.a
+*.so
+*.dll
+*.dylib
+*.lib
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Python cache
+__pycache__/
+.pytest_cache/
+
+# Ninja
+.ninja_deps
+.ninja_log
