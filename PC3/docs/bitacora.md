@@ -38,4 +38,8 @@ Hice `traza_reto.cpp` para el bloque de modificación grabada. El programa muest
 
 Además, modifiqué `XorManager` (tanto el `.h` como el `.cpp`) para agregar el método `printNeighborXors()`. Este método recorre el treap en inorden e imprime cada par vecino con su valor XOR, validando también con un `assert` que el mínimo entre esos pares sea igual a `getMinXor()`. Esto sirve para verificar de manera explícita que el invariante se cumple.
 
-## Día 5 — 
+## Día 5 — Pruebas finales y grabación del video
+Borré `build/` y reconstruí todo desde cero. Compiló limpio. Las 7 pruebas pasaron incluyendo la comparación contra fuerza bruta, y el demo imprimió la traza correctamente.
+Para la modificación en vivo necesité agregar `#include <iostream>` y `#include <cassert>` al inicio de `LazyHeap.h` porque sin esos includes el compilador no reconocía `std::cout` ni `assert`. Agregué un `std::cout` en `clean()` para ver cuándo se descarta un obsoleto y un `assert(result >= 0)` en `getMin()` para proteger que el XOR nunca sea negativo. Recompilé y todo pasó sin problemas.
+Grabé el video cubriendo el repositorio con `git log`, la explicación del problema y la operación XOR, las estructuras, el recorrido del código, los tests y la modificación en vivo sin cortes.
+Video grabado. Archivos listos para la entrega.

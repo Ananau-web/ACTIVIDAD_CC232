@@ -2,6 +2,8 @@
 #include "PQ_ComplHeap.h"
 #include <unordered_map>
 #include <functional>
+#include <cassert>
+#include <iostream>
 
 class LazyHeap {
 private:
@@ -18,6 +20,7 @@ private:
             // Validar existencia antes de usar el mapa (evita inserción accidental)
             if (obsoletos.count(current_min) && obsoletos[current_min] > 0) {
                 obsoletos[current_min]--;
+                std::cout << "Descartando obsoleto: " << current_min << "\n";
                 pq.delMax(); // Extraemos el elemento obsoleto
             } else {
                 break; // La raíz es un par XOR válido
@@ -37,6 +40,8 @@ public:
     long long getMin() {
         clean(); // Siempre limpiamos antes de consultar
         if (pq.empty()) return -1; // Caso frontera
-        return pq.getMax(); 
+        long long result = pq.getMax();
+        assert(result >= 0 && "XOR nunca puede ser negativo");
+        return result; 
     }
 };
