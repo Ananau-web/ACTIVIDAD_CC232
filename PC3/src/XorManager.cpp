@@ -1,6 +1,8 @@
 #include "XorManager.h"
 #include <iostream>
-
+#include <climits>
+#include <cassert>
+#include <vector>
 XorManager::XorManager(bool debug) : debug_mode(debug), minXorHeap(new LazyHeap()) {}
 
 XorManager::~XorManager() {
@@ -16,10 +18,10 @@ bool XorManager::getPredecessor(long long x, long long& result) const {
     
     while (current != nullptr) {
         if (current->key < x) {
-            pred = current; // Candidato: seguimos a la derecha por si hay algo mayor
+            pred = current; 
             current = current->right;
         } else {
-            current = current->left; // Demasiado grande, vamos izquierda
+            current = current->left; 
         }
     }
     
@@ -52,7 +54,7 @@ void XorManager::insert(long long val) {
     }
     freq[val] = 1;
 
-    // Buscamos los vecinos ANTES de insertar, porque después ya estarían dentro del treap
+    // Buscamos los vecinos ANTES de insertar
     long long pred, succ;
     bool has_pred = getPredecessor(val, pred);
     bool has_succ = getSuccessor(val, succ);
@@ -117,4 +119,34 @@ void XorManager::printTrace(const std::string& action, long long val, long long 
     std::cout << ", Succ: ";
     if (succ != -1) std::cout << succ; else std::cout << "Ninguno";
     std::cout << "\n";
+}
+
+// Recorre el treap en inorden e imprime cada par vecino con su XOR.
+// Al final verifica que el minimo entre esos pares coincide con getMinXor().
+// Sirve para confirmar el invariante visualmente y con assert.
+void XorManager::printNeighborXors() {
+  std::vector<long long> keys = treap.inorderKeys();
+  if (keys.size() < 2) {
+    std::cout << "[printNeighborXors] menos de 2 elementos, no hay pares\n";
+    return;
+  }
+
+  long long min_vecinos = LLONG_MAX;
+  std::cout << "[printNeighborXors] pares de vecinos en orden:\n";
+  for (size_t i = 0; i + 1 < keys.size(); i++) {
+    long long xv = keys[i] ^ keys[i + 1];
+    std::cout << "  (" << keys[i] << ", " << keys[i + 1] << ") -> XOR = " << xv
+              << "\n";
+    if (xv < min_vecinos)
+      min_vecinos = xv;
+  }
+
+  long long min_heap = getMinXor();
+  std::cout << "  min entre vecinos = " << min_vecinos << "\n";
+  std::cout << "  getMinXor()       = " << min_heap << "\n";
+
+  // Si el invariante se rompe esto aborta, util para depurar
+  assert(min_vecinos == min_heap &&
+         "invariante roto: hay un par no vecino con XOR menor");
+  std::cout << "  [OK] invariante verificado\n";
 }

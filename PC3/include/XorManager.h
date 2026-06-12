@@ -9,10 +9,10 @@ class XorManager {
 private:
     ods::Treap<long long> treap;
     LazyHeap* minXorHeap;
-    std::unordered_map<long long, int> freq; // CRÍTICO: El mapa para duplicados
+    std::unordered_map<long long, int> freq; // El mapa para duplicados
     bool debug_mode;
 
-    // CRÍTICO: Declaración de los métodos auxiliares que usas en el .cpp
+    // Declaración de los métodos auxiliares que usas en el .cpp
     bool getPredecessor(long long x, long long& result) const;
     bool getSuccessor(long long x, long long& result) const;
 
@@ -24,6 +24,8 @@ public:
     void erase(long long val);
     long long getMinXor();
     
+    // Imprime todos los pares vecinos del treap con sus XOR 
+    void printNeighborXors();
     void printTrace(const std::string& action, long long val, long long pred, long long succ) const;
     void setDebugMode(bool mode) { debug_mode = mode; }
 };
