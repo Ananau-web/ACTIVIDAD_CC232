@@ -1,0 +1,53 @@
+casos_borde.txt - PC3 Minimum Xor Pair
+fecha: 2026-06-08
+
+estos son los casos borde que fui probando mientras implementaba:
+
+caso 1: heap vacio
+  getMinXor() sin insertar nada -> -1
+  tiene sentido porque no hay pares posibles
+
+caso 2: un solo elemento
+  insert(42) -> getMinXor() = -1
+  igual que el anterior, necesitas al menos 2 para hacer un par XOR
+
+caso 3: dos elementos iguales
+  insert(14); insert(14) -> getMinXor() = 0
+  esto es critico: 14 XOR 14 = 0, y el treap rechaza duplicados,
+  asi que tuve que manejar esto con el mapa de frecuencias
+  cuando freq[14] ya es 1, en vez de insertar al treap solo
+  agrego un 0 directamente al heap
+
+caso 4: insercion y eliminacion intermedia
+  insert(2), insert(10), insert(5), erase(5)
+  al insertar 5 entre 2 y 10: par (2,10) se vuelve obsoleto, aparecen (2,5)=7 y (5,10)=15
+  al eliminar 5: los pares de 5 se marcan obsoletos, se restaura (2,10)=8
+  el minimo va: 8 -> 7 -> 8
+  esto prueba que el lazy deletion y la reconexion de vecinos funcionan
+
+caso 5: varios duplicados
+  insert(7) x3, insert(9) x2
+  freq[7]=3, freq[9]=2
+  el heap tiene varios 0s (uno por cada par (7,7))
+  getMinXor() = 0 como se espera
+
+caso 6: eliminar todos los duplicados
+  insert(5) x3, luego erase(5) x3
+  al final no queda nada en el treap
+  getMinXor() = -1
+  esto lo falle primero porque no estaba decrementando freq correctamente
+  al eliminar la ultima instancia (freq de 1 a 0) tuve que llamar treap.remove()
+
+caso 7: numeros muy cercanos en bits
+  insert(1020), insert(1019), insert(1021)
+  1020 en binario: 1111111100
+  1021 en binario: 1111111101
+  XOR = 1, que es el minimo posible entre estos
+  getMinXor() = 1, correcto
+
+caso 8: numeros con bits alternados (peor caso para XOR)
+  insert(8), insert(7)
+  8 = 1000, 7 = 0111
+  8 XOR 7 = 1111 = 15
+  getMinXor() = 15
+  no hay otro par posible asi que esta bien

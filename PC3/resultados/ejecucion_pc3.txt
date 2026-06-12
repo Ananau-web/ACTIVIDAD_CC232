@@ -1,0 +1,79 @@
+ejecucion PC3 - 2026-06-08
+
+compilacion:
+  cmake -S . -B build
+  cmake --build build
+
+salida de cmake: configura el proyecto, detecta el compilador, genera build.ninja
+
+salida de compilacion: compila XorManager.cpp y tests/main.cpp sin errores ni warnings
+
+ejecutar pruebas:
+  ./build/test_pc3
+
+salida:
+  Iniciando bateria de pruebas automatizadas...
+    [PASS] 1. test_caso_minimo
+    [PASS] 2. test_invariante_insercion_intermedia
+    [PASS] 3. test_eliminacion_restaura_par_original
+    [PASS] 4. test_caso_duplicados
+    [PASS] 5. test_caso_frontera_pocos_elementos
+    [PASS] 6. test_comparacion_fuerza_bruta
+    [PASS] 7. test_verificacion_invariante
+
+  SUCCESS: Todas las 7 pruebas obligatorias y casos borde pasaron correctamente.
+
+ctest:
+  ctest --test-dir build
+  Test project .../PC3/build
+      Start 1: test_pc3
+  1/1 Test #1: test_pc3 .....  Passed
+
+demo de traza:
+  ./build/demo_traza
+  Traza de insercion/eliminacion con pares vecinos
+
+insert(10) -> solo 1 elemento, minXor = Insertando valor: 10 | Vecinos -> Pred: Ninguno, Succ: Ninguno
+-1 (no hay par)
+Insertando valor: 2 | Vecinos -> Pred: Ninguno, Succ: 10
+insert(2) -> par formado: 2 XOR 10 = 8, minXor = 8
+
+insert(5) va entre 2 y 10:
+  par (2,10) xor=8 queda obsoleto
+Insertando valor: 5 | Vecinos -> Pred: 2, Succ: 10
+  par nuevo (2,5) xor=7
+  par nuevo (5,10) xor=15
+  minXor = 7 (es 7 = 2 xor 5)
+
+insert(7) va entre 5 y 10:
+  par (5,10) xor=15 queda obsoleto
+Insertando valor: 7 | Vecinos -> Pred: 5, Succ: 10
+  par nuevo (5,7) xor=2
+  par nuevo (7,10) xor=13
+  minXor = 2 (es 2 = 5 xor 7)
+
+erase(5):
+  pares (2,5) xor=7 y (5,7) xor=2 quedan obsoletos
+Eliminando valor: 5 | Vecinos -> Pred: 2, Succ: 7
+  par restaurado (2,7) xor=5
+  minXor = 5 (es 5 = 2 xor 7)
+
+insert(7) de nuevo (duplicado):
+  freq[7] pasa a 2, treap no cambia
+  se inserta 0 al heap (7 xor 7 = 0)
+Duplicado detectado: 7. Insertando XOR 0 al heap.
+  minXor = 0 (es 0 por el duplicado)
+
+erase(7) una instancia:
+  freq[7] pasa a 1, el 0 se marca obsoleto
+  minXor = 5 (vuelve a 5 = 2 xor 7)
+
+verificacion de invariante con printNeighborXors() (agregado en el bloque sin cortes):
+  [printNeighborXors] pares de vecinos en orden:
+    (2, 7) -> XOR = 5
+    (7, 10) -> XOR = 13
+    min entre vecinos = 5
+    getMinXor()       = 5
+    [OK] invariante verificado
+
+nota: el ejecutable test_pc3.exe no esta versionado, esta en .gitignore

@@ -1,0 +1,51 @@
+pruebas PC3 - ejecutadas el 2026-06-08
+
+ejecutable: ./build/test_pc3
+
+prueba 1 - caso minimo
+  insert(2), insert(10)
+  esperaba getMinXor() = 8
+  obtenido: 8
+  2 = 0010, 10 = 1010, XOR = 1000 = 8
+
+prueba 2 - insercion intermedia
+  insert(2), insert(10), insert(5)
+  esperaba getMinXor() = 7
+  obtenido: 7
+  al insertar 5 entre 2 y 10, el par (2,10) se vuelve obsoleto
+  nuevos pares: (2,5)->7 y (5,10)->15, el minimo es 7
+
+prueba 3 - eliminacion con reconexion
+  insert(2), insert(5), insert(10), erase(5)
+  esperaba getMinXor() = 8
+  obtenido: 8
+  al eliminar 5, sus pares (2,5) y (5,10) quedan obsoletos
+  se restaura el par (2,10)->8
+
+prueba 4 - duplicados
+  insert(14), insert(25), insert(14), erase(14)
+  esperaba 0 despues del segundo insert, luego 23
+  obtenido: 0 y luego 23
+  14 XOR 14 = 0, manejado con freq sin tocar el treap
+  al eliminar una instancia el minimo vuelve a 14 XOR 25 = 23
+
+prueba 5 - frontera: un solo elemento
+  insert(42)
+  esperaba getMinXor() = -1
+  obtenido: -1
+  no hay pares posibles con un elemento
+
+prueba 6 - comparacion contra fuerza bruta
+  valores: {3, 17, 8, 25, 12, 6, 31, 20, 1, 14}
+  calcule el minimo con mi estructura y con doble loop O(n^2)
+  ambos coinciden antes y despues de eliminar 8 y 6
+  esto confirma que la logica de los pares vecinos es correcta
+
+prueba 7 - verificacion del invariante
+  insert(3), insert(10), insert(7), insert(15), insert(1), insert(2)
+  los elementos ordenados quedan {1, 2, 3, 7, 10, 15}
+  XOR entre vecinos: 1^2=3, 2^3=1, 3^7=4, 7^10=13, 10^15=5
+  minimo entre vecinos = 1
+  getMinXor() = 1, coincide
+
+resultado: 7/7 pruebas pasan
